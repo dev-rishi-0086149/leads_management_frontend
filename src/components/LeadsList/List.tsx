@@ -15,6 +15,7 @@ const LeadsList = ({
   setSelectedRow,
   columns,
   displayEdit,
+  deleteFile,
 }) => {
   return (
     <div className="p-6 max-w-full">
@@ -167,12 +168,13 @@ const LeadsList = ({
                       ) && (
                         <div>
                           {/*  */}
-                          {!selectedRow.aadhar_doc && (
+                          {(!selectedRow.aadhar_doc ||
+                            selectedRow.aadhar_doc.length == 0) && (
                             <div>No Aadhar doc uploaded</div>
                           )}
                           {selectedRow.aadhar_doc && (
                             <div className="my-4">
-                              <span  className="mr-4">Uploaded Aadhar</span> 
+                              <span className="mr-4">Uploaded Aadhar</span>
                               <a
                                 href={`http://localhost:3000/docs/${selectedRow.aadhar_doc}`}
                                 download
@@ -199,7 +201,7 @@ const LeadsList = ({
                   }
                   {/* PAN */}
                   {
-                    <div className='my-4'>
+                    <div className="my-4">
                       <p>
                         <strong>PAN:</strong>{' '}
                         {selectedRow.type === 1
@@ -215,7 +217,7 @@ const LeadsList = ({
                           )}
                           {selectedRow.pan_doc && (
                             <div className="">
-                              <span className='mr-3'>Uploaded PAN </span>
+                              <span className="mr-3">Uploaded PAN </span>
                               <a
                                 href={`http://localhost:3000/docs/${selectedRow.pan_doc}`}
                                 download
@@ -243,28 +245,26 @@ const LeadsList = ({
 
                   {/* income proof */}
                   {!(selectedRow.status == 0 || selectedRow.status == 1) && (
-                    
                     <div>
-                        <div>
+                      <div>
                         {!selectedRow.annual_income && (
-                        <div>Annual income not submitted</div>
-                      )}
-                      {selectedRow.annual_income && (
-                        <div>Annual income :   {selectedRow.annual_income}</div>
-                      )}
-                        </div>
+                          <div>Annual income not submitted</div>
+                        )}
+                        {selectedRow.annual_income && (
+                          <div>Annual income : {selectedRow.annual_income}</div>
+                        )}
+                      </div>
                       {!selectedRow.income_proof_doc && (
                         <div>No Income Proof uploaded</div>
                       )}
                       {selectedRow.income_proof_doc && (
                         <div className="">
-                          <span className='mr-3'>Uploaded Income Proof</span>
+                          <span className="mr-3">Uploaded Income Proof</span>
                           <a
                             href={`http://localhost:3000/docs/${selectedRow.income_proof_doc}`}
                             download
                             target="_blank" // Opens the link in a new tab
                             rel="noopener noreferrer" // Adds security for external links
-
                           >
                             <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
                               <svg
@@ -284,7 +284,7 @@ const LeadsList = ({
                   )}
                   {/* address */}
                   {
-                    <div className='my-3'>
+                    <div className="my-3">
                       <label className="mb-3 block text-black dark:text-white">
                         Address
                       </label>
@@ -311,7 +311,7 @@ const LeadsList = ({
                           )}
                           {selectedRow.address && (
                             <div className="">
-                              <span className='mr-2'>Full Address</span>
+                              <span className="mr-2">Full Address</span>
                               {selectedRow.address}
                             </div>
                           )}
@@ -327,7 +327,9 @@ const LeadsList = ({
                           )}
                           {selectedRow.address_proof_doc && (
                             <div className="">
-                              <span className='mr-3'>Uploaded Address Proof File</span>
+                              <span className="mr-3">
+                                Uploaded Address Proof File
+                              </span>
                               <a
                                 href={`http://localhost:3000/docs/${selectedRow.address_proof_doc}`}
                                 download
@@ -395,52 +397,97 @@ const LeadsList = ({
                     {
                       <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         <div>
-                          <label className="mb-3 block text-black dark:text-white">
+                          <label className="mb-3 block text-black dark:text-white">   
                             Upload Aadhar
                           </label>
-                          {selectedRow.aadhar_doc && (
+                          {selectedRow.aadhar_doc &&
+                            selectedRow.aadhar_doc.length > 0 && (
+                              <p>Previous Uploaded Files : </p>
+                            )}
+                          {selectedRow.aadhar_doc &&
+                            selectedRow.aadhar_doc.length > 0 &&
+                            selectedRow.aadhar_doc.map((file) => (
                               <div className="flex">
                                 {' '}
                                 <a
-                                  href={`http://localhost:3000/docs/${selectedRow.aadhar_doc}`}
+                                  href={`http://localhost:3000/docs/${file.file_name}`}
                                   download
-                                  target="_blank" // Opens the link in a new tab
+                                  target="_blank" p
                                   rel="noopener noreferrer" // Adds security for external links
-                                  className='flex my-3'
+                                  className="flex my-3"
                                 >
-                                <p>
-                                  Prev Uploaded File :{' '}
-                                  {selectedRow.aadhar_doc}{' '}
-                                </p>
-                               
-                                     <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 24 24"
-                                      fill="currentColor"
-                                      className="w-6 h-6"
-                                    >
-                                      <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
-                                      <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                    </svg>
-                                  {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
-                                   
-                                  </button> */}
+                                  <p>{file.file_name} </p>
+
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    className="w-6 h-6"
+                                  >
+                                    <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
+                                    <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
+                                  </svg>
                                 </a>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteFile(
+                                      file.id,
+                                      'aadhar_doc',
+                                      selectedRow.id,
+                                    );
+                                  }}
+                                  className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    className="feather feather-trash text-gray-800 dark:text-gray-200 hover:text-red-500 transition-all"
+                                  >
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                    <line
+                                      x1="10"
+                                      y1="11"
+                                      x2="10"
+                                      y2="17"
+                                    ></line>
+                                    <line
+                                      x1="14"
+                                      y1="11"
+                                      x2="14"
+                                      y2="17"
+                                    ></line>
+                                    <path d="M9 3h6a1 1 0 0 1 1 1v2H8V4a1 1 0 0 1 1-1z"></path>
+                                  </svg>
+                                </button>
                               </div>
-                            )}
+                            ))}
                           {selectedRow.aadhar_doc_file && (
-                            <p className='my-2'>
-                              Uploaded File : {selectedRow.aadhar_doc_file.name}{' '}
+                            <p className="my-2">
+                              Selected Files :{' '}
+                              {Array.from(selectedRow.aadhar_doc_file)
+                                .map((file) => file.name)
+                                .join(', ')}
                             </p>
                           )}
                           <input
                             type="file"
+                            multiple
                             className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
                             onChange={(e) => {
                               const { name, files: selectedFiles } = e.target;
                               setSelectedRow((prev) => ({
                                 ...prev,
-                                aadhar_doc_file: selectedFiles[0],
+                                aadhar_doc_file: selectedFiles,
                               }));
                             }}
                           />
@@ -452,50 +499,101 @@ const LeadsList = ({
                     {
                       <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         <div>
-                          <label className="mb-3 block text-black dark:text-white">
+                          <label className="mb-3 block text-black dark:text-white px-2">
                             Upload PAN
                           </label>
-                          {selectedRow.pan_doc && (
+                          {selectedRow.pan_doc &&
+                            selectedRow.pan_doc.length > 0 && (
+                              <p className="px-2">Previous Uploaded Files : </p>
+                            )}
+                          {selectedRow.pan_doc &&
+                            selectedRow.pan_doc.length > 0 &&
+                            selectedRow.pan_doc.map((file) => (
                               <div className="flex">
                                 {' '}
                                 <a
-                                  href={`http://localhost:3000/docs/${selectedRow.pan_doc}`}
+                                  href={`http://localhost:3000/docs/${file.file_name}`}
                                   download
                                   target="_blank" // Opens the link in a new tab
                                   rel="noopener noreferrer" // Adds security for external links
-                                  className='flex my-3'
+                                  className="flex my-3"
                                 >
-                                <p>
-                                  Prev Uploaded File :{' '}
-                                  {selectedRow.pan_doc}{' '}
-                                </p>
-                               
-                                     <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 24 24"
-                                      fill="currentColor"
-                                      className="w-6 h-6"
-                                    >
-                                      <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
-                                      <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                    </svg>
+                                  <p className="px-2">{file.file_name} </p>
+
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    className="w-6 h-6"
+                                  >
+                                    <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
+                                    <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
+                                  </svg>
                                   {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                    
                                   </button> */}
                                 </a>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteFile(
+                                      file.id,
+                                      'pan_doc',
+                                      selectedRow.id,
+                                    );
+                                  }}
+                                  className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    className="feather feather-trash text-gray-800 dark:text-gray-200 hover:text-red-500 transition-all"
+                                  >
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                    <line
+                                      x1="10"
+                                      y1="11"
+                                      x2="10"
+                                      y2="17"
+                                    ></line>
+                                    <line
+                                      x1="14"
+                                      y1="11"
+                                      x2="14"
+                                      y2="17"
+                                    ></line>
+                                    <path d="M9 3h6a1 1 0 0 1 1 1v2H8V4a1 1 0 0 1 1-1z"></path>
+                                  </svg>
+                                </button>
                               </div>
-                            )}
+                            ))}
+
                           {selectedRow.pan_doc_file && (
-                            <p className="my-2">Uploaded File : {selectedRow.pan_doc_file.name} </p>
+                            <p className="my-2">
+                              Selected Files :{' '}
+                              {Array.from(selectedRow.pan_doc_file)
+                                .map((file) => file.name)
+                                .join(', ')}
+                            </p>
                           )}
                           <input
                             type="file"
+                            multiple
                             className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
                             onChange={(e) => {
                               const { name, files: selectedFiles } = e.target;
                               setSelectedRow((prev) => ({
                                 ...prev,
-                                pan_doc_file: selectedFiles[0],
+                                pan_doc_file: selectedFiles,
                               }));
                             }}
                           />
@@ -566,22 +664,25 @@ const LeadsList = ({
                             <label className="mb-3 block text-black dark:text-white">
                               Upload Income Proof
                             </label>
-                            {selectedRow.income_proof_doc && (
-                              <div className="flex">
-                                {' '}
-                                <a
-                                  href={`http://localhost:3000/docs/${selectedRow.income_proof_doc}`}
-                                  download
-                                  target="_blank" // Opens the link in a new tab
-                                  rel="noopener noreferrer" // Adds security for external links
-                                  className='flex my-3'
-                                >
-                                <p>
-                                  Prev Uploaded File :{' '}
-                                  {selectedRow.income_proof_doc}{' '}
-                                </p>
-                               
-                                     <svg
+                            {selectedRow.income_proof_doc &&
+                              selectedRow.income_proof_doc.length > 0 && (
+                                <p>Previous Uploaded Files : </p>
+                              )}
+                            {selectedRow.income_proof_doc &&
+                              selectedRow.income_proof_doc.length > 0 &&
+                              selectedRow.income_proof_doc.map((file) => (
+                                <div className="flex">
+                                  {' '}
+                                  <a
+                                    href={`http://localhost:3000/docs/${file.file_name}`}
+                                    download
+                                    target="_blank" // Opens the link in a new tab
+                                    rel="noopener noreferrer" // Adds security for external links
+                                    className="flex my-3"
+                                  >
+                                    <p>{file.file_name} </p>
+
+                                    <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
                                       fill="currentColor"
@@ -590,25 +691,71 @@ const LeadsList = ({
                                       <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
                                       <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
                                     </svg>
-                                  {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
+                                    {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                    
                                   </button> */}
-                                </a>
-                              </div>
-                            )}
-                            {selectedRow.income_proof && (
-                              <p className='my-2'>
-                                Uploaded File : {selectedRow.income_proof.name}{' '}
+                                  </a>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      deleteFile(
+                                        file.id,
+                                        'income_proof_doc',
+                                        selectedRow.id,
+                                      );
+                                    }}
+                                    className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      className="feather feather-trash text-gray-800 dark:text-gray-200 hover:text-red-500 transition-all"
+                                    >
+                                      <polyline points="3 6 5 6 21 6"></polyline>
+                                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                      <line
+                                        x1="10"
+                                        y1="11"
+                                        x2="10"
+                                        y2="17"
+                                      ></line>
+                                      <line
+                                        x1="14"
+                                        y1="11"
+                                        x2="14"
+                                        y2="17"
+                                      ></line>
+                                      <path d="M9 3h6a1 1 0 0 1 1 1v2H8V4a1 1 0 0 1 1-1z"></path>
+                                    </svg>
+                                  </button>
+                                </div>
+                              ))}
+
+                            {selectedRow.income_proof_doc_files && (
+                              <p className="my-2">
+                                Selected Files :{' '}
+                                {Array.from(selectedRow.income_proof_doc_files)
+                                  .map((file) => file.name)
+                                  .join(', ')}
                               </p>
                             )}
                             <input
                               type="file"
+                              multiple
                               className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
                               onChange={(e) => {
                                 const { name, files: selectedFiles } = e.target;
                                 setSelectedRow((prev) => ({
                                   ...prev,
-                                  income_proof: selectedFiles[0],
+                                  income_proof_doc_files: selectedFiles,
                                 }));
                               }}
                             />
@@ -644,23 +791,26 @@ const LeadsList = ({
                             <label className="mb-3 block text-black dark:text-white">
                               Upload Address Proof
                             </label>
-                            
-                            {selectedRow.address_proof_doc && (
-                              <div className="flex">
-                                {' '}
-                                <a
-                                  href={`http://localhost:3000/docs/${selectedRow.address_proof_doc}`}
-                                  download
-                                  target="_blank" // Opens the link in a new tab
-                                  rel="noopener noreferrer" // Adds security for external links
-                                  className='flex my-3'
-                                >
-                                <p>
-                                  Prev Uploaded File :{' '}
-                                  {selectedRow.address_proof_doc}{' '}
-                                </p>
-                               
-                                     <svg
+
+                            {selectedRow.address_proof_doc &&
+                              selectedRow.address_proof_doc.length > 0 && (
+                                <p>Previous Uploaded Files : </p>
+                              )}
+                            {selectedRow.address_proof_doc &&
+                              selectedRow.address_proof_doc.length > 0 &&
+                              selectedRow.address_proof_doc.map((file) => (
+                                <div className="flex">
+                                  {' '}
+                                  <a
+                                    href={`http://localhost:3000/docs/${file.file_name}`}
+                                    download
+                                    target="_blank" // Opens the link in a new tab
+                                    rel="noopener noreferrer" // Adds security for external links
+                                    className="flex my-3"
+                                  >
+                                    <p>{file.file_name} </p>
+
+                                    <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
                                       fill="currentColor"
@@ -669,29 +819,295 @@ const LeadsList = ({
                                       <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
                                       <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
                                     </svg>
-                                  {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
+                                    {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                    
                                   </button> */}
-                                </a>
-                              </div>
-                            )}
-                            {selectedRow.address_proof && (
-                              <p className='my-2'>
-                                Uploaded File : {selectedRow.address_proof.name}{' '}
-                              </p>
-                            )}
+                                  </a>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      deleteFile(
+                                        file.id,
+                                        'address_proof_doc',
+                                        selectedRow.id,
+                                      );
+                                    }}
+                                    className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      className="feather feather-trash text-gray-800 dark:text-gray-200 hover:text-red-500 transition-all"
+                                    >
+                                      <polyline points="3 6 5 6 21 6"></polyline>
+                                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                      <line
+                                        x1="10"
+                                        y1="11"
+                                        x2="10"
+                                        y2="17"
+                                      ></line>
+                                      <line
+                                        x1="14"
+                                        y1="11"
+                                        x2="14"
+                                        y2="17"
+                                      ></line>
+                                      <path d="M9 3h6a1 1 0 0 1 1 1v2H8V4a1 1 0 0 1 1-1z"></path>
+                                    </svg>
+                                  </button>
+                                </div>
+                              ))}
+
+                            
+                            {selectedRow.address_proof_doc_files && (
+                            <p className="my-2">
+                              Selected Files :{' '}
+                              {Array.from(selectedRow.address_proof_doc_files)
+                                .map((file) => file.name)
+                                .join(', ')}
+                            </p>
+                          )}
+                            
                             <input
-                              type="file"
-                              className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
-                              onChange={(e) => {
-                                const { name, files: selectedFiles } = e.target;
-                                setSelectedRow((prev) => ({
-                                  ...prev,
-                                  address_proof: selectedFiles[0],
-                                }));
-                              }}
-                            />
+                            type="file"
+                            multiple
+                            className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                            onChange={(e) => {
+                              const { name, files: selectedFiles } = e.target;
+                              setSelectedRow((prev) => ({
+                                ...prev,
+                                address_proof_doc_files: selectedFiles,
+                              }));
+                            }}
+                          />
                           </div>
+                        </div>
+                      </div>
+                    }
+
+                    {/* property docs */}
+                    {
+                      <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                        <div>
+                          <label className="mb-3 block text-black dark:text-white">
+                            Upload Property Documents
+                          </label>
+
+                          {selectedRow.property_doc &&
+                            selectedRow.property_doc.length > 0 && (
+                              <p>Previous Uploaded Files : </p>
+                            )}
+                          {selectedRow.property_doc &&
+                            selectedRow.property_doc.length > 0 &&
+                            selectedRow.property_doc.map((file) => (
+                              <div className="flex">
+                                {' '}
+                                <a
+                                  href={`http://localhost:3000/docs/${file.file_name}`}
+                                  download
+                                  target="_blank" // Opens the link in a new tab
+                                  rel="noopener noreferrer" // Adds security for external links
+                                  className="flex my-3"
+                                >
+                                  <p>{file.file_name} </p>
+
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    className="w-6 h-6"
+                                  >
+                                    <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
+                                    <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
+                                  </svg>
+                                  {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
+                               
+                              </button> */}
+                                </a>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteFile(
+                                      file.id,
+                                      'property_doc',
+                                      selectedRow.id,
+                                    );
+                                  }}
+                                  className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    className="feather feather-trash text-gray-800 dark:text-gray-200 hover:text-red-500 transition-all"
+                                  >
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                    <line
+                                      x1="10"
+                                      y1="11"
+                                      x2="10"
+                                      y2="17"
+                                    ></line>
+                                    <line
+                                      x1="14"
+                                      y1="11"
+                                      x2="14"
+                                      y2="17"
+                                    ></line>
+                                    <path d="M9 3h6a1 1 0 0 1 1 1v2H8V4a1 1 0 0 1 1-1z"></path>
+                                  </svg>
+                                </button>
+                              </div>
+                            ))}
+
+                          
+                          {selectedRow.property_doc_files && (
+                            <p className="my-2">
+                              Selected Files :{' '}
+                              {Array.from(selectedRow.property_doc_files)
+                                .map((file) => file.name)
+                                .join(', ')}
+                            </p>
+                          )}
+
+                          
+                          <input
+                            type="file"
+                            multiple
+                            className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                            onChange={(e) => {
+                              const { name, files: selectedFiles } = e.target;
+                              setSelectedRow((prev) => ({
+                                ...prev,
+                                property_doc_files: selectedFiles,
+                              }));
+                            }}
+                          />
+                        </div>
+                      </div>
+                    }
+                    {/* bank statement docs */}
+                    {
+                      <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                        <div>
+                          <label className="mb-3 block text-black dark:text-white px-2">
+                            Bank Statement
+                          </label>
+
+                          {selectedRow.bank_statement_doc &&
+                            selectedRow.bank_statement_doc.length > 0 && (
+                              <p className="px-2">Previous Uploaded Files : </p>
+                            )}
+                          {selectedRow.bank_statement_doc &&
+                            selectedRow.bank_statement_doc.length > 0 &&
+                            selectedRow.bank_statement_doc.map((file) => (
+                              <div className="flex">
+                                {' '}
+                                <a
+                                  href={`http://localhost:3000/docs/${file.file_name}`}
+                                  download
+                                  target="_blank" // Opens the link in a new tab
+                                  rel="noopener noreferrer" // Adds security for external links
+                                  className="flex my-3"
+                                >
+                                  <p className="px-2">{file.file_name} </p>
+
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    className="w-6 h-6"
+                                  >
+                                    <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
+                                    <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
+                                  </svg>
+                                  {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
+                               
+                              </button> */}
+                                </a>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteFile(
+                                      file.id,
+                                      'bank_statement_doc',
+                                      selectedRow.id,
+                                    );
+                                  }}
+                                  className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    className="feather feather-trash text-gray-800 dark:text-gray-200 hover:text-red-500 transition-all"
+                                  >
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                    <line
+                                      x1="10"
+                                      y1="11"
+                                      x2="10"
+                                      y2="17"
+                                    ></line>
+                                    <line
+                                      x1="14"
+                                      y1="11"
+                                      x2="14"
+                                      y2="17"
+                                    ></line>
+                                    <path d="M9 3h6a1 1 0 0 1 1 1v2H8V4a1 1 0 0 1 1-1z"></path>
+                                  </svg>
+                                </button>
+                              </div>
+                            ))}
+
+                          
+                          {selectedRow.bank_statement_doc_files && (
+                            <p className="my-2">
+                              Selected Files :{' '}
+                              {Array.from(selectedRow.bank_statement_doc_files)
+                                .map((file) => file.name)
+                                .join(', ')}
+                            </p>
+                          )}
+                          
+                          <input
+                            type="file"
+                            multiple
+                            className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                            onChange={(e) => {
+                              const { name, files: selectedFiles } = e.target;
+                              setSelectedRow((prev) => ({
+                                ...prev,
+                                bank_statement_doc_files: selectedFiles,
+                              }));
+                            }}
+                          />
                         </div>
                       </div>
                     }

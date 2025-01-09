@@ -60,7 +60,7 @@ const Login: React.FC = () => {
         console.error('Unexpected Error:', error.message);
       }
     }
-    console.log(formData);
+    //console.log(formData);
   };
 
   const handleFormDataChange = (
