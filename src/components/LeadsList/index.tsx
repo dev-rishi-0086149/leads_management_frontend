@@ -20,10 +20,11 @@ const LeadsListDash: React.FC = () => {
   const [tab, setTab] = useState(0); //0->pending 1->upcoming leads/waiting for callback 2->intrested 3->cold lead
   const [overDueLeads, setOverDueLeads] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const getDataCount = async () => {
     const response = await axios.get(
-      `http://localhost:3000/leads/get-leads-count?tab=${tab}`,
+      `${backendUrl}/leads/get-leads-count?tab=${tab}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
@@ -35,7 +36,7 @@ const LeadsListDash: React.FC = () => {
 
   const getData = async () => {
     const response = await axios.get(
-      `http://localhost:3000/leads/get-leads?rown=${rowsPerPage}&pageno=${currentPage}&tab=${tab}`,
+      `${backendUrl}/leads/get-leads?rown=${rowsPerPage}&pageno=${currentPage}&tab=${tab}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
@@ -312,7 +313,7 @@ const LeadsListDash: React.FC = () => {
     }
 
     const response = await axios.post(
-      'http://localhost:3000/leads/update-lead',
+      `${backendUrl}/leads/update-lead`,
       formData,
       {
         headers: {
@@ -390,7 +391,7 @@ const LeadsListDash: React.FC = () => {
     console.log('selected row - ', selectedRow);
 
     const response = await axios.post(
-      'http://localhost:3000/leads/delete-file',
+      `${backendUrl}/leads/delete-file`,
       { id },
       {
         headers: {

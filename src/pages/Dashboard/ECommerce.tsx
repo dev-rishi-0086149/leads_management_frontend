@@ -9,12 +9,13 @@ import TableOne from '../../components/Tables/TableOne';
 import axios from 'axios';
 const ECommerce: React.FC = () => {
   const [dashData,setDashData] = useState({});
-  //const BACKEND_URL=process.env.BACKEND_URL;
+  //const BACKEND_URL=import.meta.env.BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const getDashData = async () => {
       const dashData = await axios.get(
-        `http://localhost:3000/leads/get-dashboard-data`,
+        `${backendUrl}/leads/get-dashboard-data`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,

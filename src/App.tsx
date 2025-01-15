@@ -19,6 +19,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import Login from './pages/Authentication/Login';
 import { Toaster } from 'react-hot-toast';
 import LeadsListDash from './components/LeadsList/index';
+
 //import * as dotenv from 'dotenv';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
+  
   return loading ? (
     <Loader />
   ) : (

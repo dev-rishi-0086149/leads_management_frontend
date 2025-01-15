@@ -12,7 +12,10 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
+  //const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
+  
   const [jwt, setJwt] = useRecoilState(jwtState);
   const [formData, setFormData] = useState({
     empRef: '',
@@ -32,7 +35,7 @@ const Login: React.FC = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:3000/auth/login',
+        `${backendUrl}/auth/login`,
         formData,
         {
           headers: {

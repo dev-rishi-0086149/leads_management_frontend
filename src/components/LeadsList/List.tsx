@@ -20,6 +20,7 @@ const LeadsList = ({
   displayEdit,
   deleteFile,
 }) => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   return (
     <div className="p-0 max-w-full">
       <div className="shadow-lg rounded-lg p-4 bg-white dark:bg-black">
@@ -219,7 +220,7 @@ const LeadsList = ({
                           <div className="my-4">
                             <span  className="mr-4">Uploaded Aadhar</span> 
                             <a
-                              href={`http://localhost:3000/docs/${selectedRow.aadhar_doc}`}
+                              href={`${backendUrl}/docs/${selectedRow.aadhar_doc}`}
                               download
                               target="_blank" // Opens the link in a new tab
                               rel="noopener noreferrer" // Adds security for external links
@@ -278,7 +279,7 @@ const LeadsList = ({
                           <div className="">
                             <span className='mr-3'>Uploaded PAN </span>
                             <a
-                              href={`http://localhost:3000/docs/${selectedRow.pan_doc}`}
+                              href={`${backendUrl}/docs/${selectedRow.pan_doc}`}
                               download
                               target="_blank" // Opens the link in a new tab
                               rel="noopener noreferrer" // Adds security for external links
@@ -320,7 +321,7 @@ const LeadsList = ({
                         <div className="">
                           <span className="mr-3">Uploaded Income Proof</span>
                           <a
-                            href={`http://localhost:3000/docs/${selectedRow.income_proof_doc}`}
+                            href={`${backendUrl}/docs/${selectedRow.income_proof_doc}`}
                             download
                             target="_blank" // Opens the link in a new tab
                             rel="noopener noreferrer" // Adds security for external links
@@ -428,7 +429,7 @@ const LeadsList = ({
                           <div className="">
                             <span className='mr-3'>Uploaded Address Proof File</span>
                             <a
-                              href={`http://localhost:3000/docs/${selectedRow.address_proof_doc}`}
+                              href={`${backendUrl}/docs/${selectedRow.address_proof_doc}`}
                               download
                               target="_blank" // Opens the link in a new tab
                               rel="noopener noreferrer" // Adds security for external links
@@ -508,7 +509,7 @@ const LeadsList = ({
                               <div className="flex ml-4 mb-2">
                                <span className="ml-2 mt-2 mr-2 text-gray-600 dark:text-white">{index + 1})</span>
                                 <a
-                                  href={`http://localhost:3000/docs/${file.file_name}`}
+                                  href={`${backendUrl}/docs/${file.file_name}`}
                                   download
                                   target="_blank"
                                   rel="noopener noreferrer" // Adds security for external links
@@ -617,7 +618,7 @@ const LeadsList = ({
                               <div className="flex ml-4 mb-2">
                                 <span className="ml-2 mt-2 mr-2  text-gray-600 dark:text-white">{index + 1})</span>
                                 <a
-                                  href={`http://localhost:3000/docs/${file.file_name}`}
+                                  href={`${backendUrl}/docs/${file.file_name}`}
                                   download
                                   target="_blank" // Opens the link in a new tab
                                   rel="noopener noreferrer" // Adds security for external links
@@ -786,7 +787,7 @@ const LeadsList = ({
                                 <div className="flex ml-4 mb-2">
                                   <span className="ml-2 mt-2 mr-2  text-gray-600 dark:text-white">{index + 1})</span>
                                   <a
-                                    href={`http://localhost:3000/docs/${file.file_name}`}
+                                    href={`${backendUrl}/docs/${file.file_name}`}
                                     download
                                     target="_blank" // Opens the link in a new tab
                                     rel="noopener noreferrer" // Adds security for external links
@@ -923,7 +924,7 @@ const LeadsList = ({
                                 <div className="flex ml-4 mb-2">
                                   <span className="ml-2 mt-2 mr-2  text-gray-600 dark:text-white">{index + 1})</span>
                                   <a
-                                    href={`http://localhost:3000/docs/${file.file_name}`}
+                                    href={`${backendUrl}/docs/${file.file_name}`}
                                     download
                                     target="_blank" // Opens the link in a new tab
                                     rel="noopener noreferrer" // Adds security for external links
@@ -1040,7 +1041,7 @@ const LeadsList = ({
                               <div className="flex ml-4 mb-2">
                                 <span className="ml-2 mt-2 mr-2 text-gray-600 dark:text-white">{index + 1})</span>
                                 <a
-                                  href={`http://localhost:3000/docs/${file.file_name}`}
+                                  href={`${backendUrl}/docs/${file.file_name}`}
                                   download
                                   target="_blank" // Opens the link in a new tab
                                   rel="noopener noreferrer" // Adds security for external links
@@ -1156,7 +1157,7 @@ const LeadsList = ({
                               <div className="flex ml-4 mb-2">
                                 <span className="ml-2 mt-2 mr-2 text-gray-600 dark:text-white">{index + 1})</span>
                                 <a
-                                  href={`http://localhost:3000/docs/${file.file_name}`}
+                                  href={`${backendUrl}/docs/${file.file_name}`}
                                   download
                                   target="_blank" // Opens the link in a new tab
                                   rel="noopener noreferrer" // Adds security for external links
