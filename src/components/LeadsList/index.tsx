@@ -85,100 +85,99 @@ const LeadsListDash: React.FC = () => {
       //console.log(formattedData);
       let tempColumns = [
         {
-          name: 'ID',
+          name: "Id",
           selector: (row) => row.id,
           sortable: true,
-          center: true,
-          width: '6%',
+          // center: "true",
+          width: "8%",
         },
         {
-          name: 'CUST_NAME',
+          name: "Customer Name",
           selector: (row) =>
             row.type == 1
               ? row.datalake_cust_data?.cust_name
               : row.website_cust_data?.cust_name,
           sortable: true,
-          center: true,
-          width: '17%',
+          // center: "true",
+          width: "15%",
         },
         {
-          name: 'AADHAR',
+          name: "Aadhar No.",
           selector: (row) =>
             row.type == 0
               ? row.website_cust_data?.aadhar
               : row.datalake_cust_data?.aadhar,
           sortable: true,
-          center: true,
-          width: '17%',
+          // center: "true",
+          width: "12%",
         },
         {
-          name: 'PAN',
+          name: "PAN No.",
           selector: (row) =>
             row.type == 0
               ? row.website_cust_data?.PAN
               : row.datalake_cust_data?.PAN,
           sortable: true,
-          center: true,
-          width: '10%',
+          // center: "true",
+          width: "10%",
         },
         {
-          name: 'PHONE NO.',
+          name: "Mobile No.",
           selector: (row) =>
             row.type == 0
               ? row.website_cust_data?.phone_no
               : row.datalake_cust_data?.phone_no,
           sortable: true,
-          width: '10%',
-          center: true,
+          width: "13%",
+          // center: "true",
         },
         {
-          name: 'CITY',
+          name: "City",
           selector: (row) =>
             row.type == 0
               ? row.website_cust_data?.city
               : row.datalake_cust_data?.city,
           sortable: true,
-          center: true,
-          width: '10%',
+          // center: "true",
+          width: "9%",
         },
         {
-          name: 'TIME ELAPSED',
+          name: "Time Elapsed",
           selector: (row) => row.time_passed,
           cell: (row) =>
-            row.time_passed > 7 ? (
-              <span className="text-red-500 font-extrabold">
-                {row.time_passed}
-              </span>
-            ) : (
-              <span className="text-green-500">{row.time_passed}</span>
-            ),
+              row.time_passed > 7 ? (
+                <span className="text-red-500 font-extrabold ml-[-16px]">{row.time_passed} days</span>
+              ) : (
+                <span className="text-green-500">{row.time_passed} days</span>
+              ),
           sortable: true,
-          center: true,
-          width: '10%',
+          center: "true",
+          width: "13%",
         },
         {
-          name: 'CHANNEL',
-          selector: (row) => (row.type == 0 ? 'WEBSITE' : 'DATA LAKE'),
+          name: "Channel",
+          selector: (row) => (row.type == 0 ? "Website" : "Data Lake"),
           sortable: true,
-          center: true,
-          width: '10%',
+          center: "true",
+          width: "10%",
+          cell: (row) => <div className="text-center ml-[-24px]">{row.type == 0 ? "Website" : "Data Lake"}</div>,
         },
         {
-          name: 'ACTION',
+          name: "Action",
           selector: (row) => (
             <FontAwesomeIcon
               icon={faEdit}
               style={{
-                cursor: 'pointer',
-                fontSize: '1.2rem',
-                color: '',
+                cursor: "pointer",
+                fontSize: "1.2rem",
+                color: "#ee8812",
               }}
               onClick={() => handleEditView(row)}
               title="Edit"
             />
           ),
-          center: true,
-          width: '10%',
+          center: "true",
+          width: "10%",
         },
       ];
       setColumns(tempColumns);

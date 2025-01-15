@@ -1,5 +1,8 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+import img1 from "../../common/assets/fileicon1.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const LeadsList = ({
   tab,
@@ -18,30 +21,34 @@ const LeadsList = ({
   deleteFile,
 }) => {
   return (
-    <div className="p-6 max-w-full">
-      <div className="shadow-lg rounded-lg p-6 bg-white dark:bg-black">
-        <div className="mb-6 flex gap-4">
-          {[
-            { label: 'Pending Leads', value: 0 },
-            { label: 'Upcoming Leads', value: 1 },
-            { label: 'Interested', value: 2 },
-            { label: 'Cold Leads', value: 3 },
-          ].map(({ label, value }) => (
-            <button
-              key={value}
-              onClick={() => handleTabSwitch(value)}
-              className={`py-2 px-4 rounded-lg font-semibold transition-all ${
-                tab === value
-                  ? 'bg-orange-500 text-white '
-                  : 'bg-gray-200 text-black dark:bg-gray-700 dark:text-white hover:bg-gray-300'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+    <div className="p-0 max-w-full">
+      <div className="shadow-lg rounded-lg p-4 bg-white dark:bg-black">
+      <div className="mb-6 flex gap-0 border-b border-gray-300">
+        {[
+          { label: 'Pending Leads', value: 0 },
+          { label: 'Upcoming Leads', value: 1 },
+          { label: 'Interested', value: 2 },
+          { label: 'Cold Leads', value: 3 },
+        ].map(({ label, value }) => (
+          <button
+            key={value}
+            onClick={() => handleTabSwitch(value)}
+            style={{
+              fontFamily: 'Roboto, sans-serif',
+              backgroundColor: tab === value ? '#EE8812' : 'transparent',
+            }}
+            className={`py-2 px-3 rounded-t-lg font-medium transition-all border-b-2 ${
+              tab === value
+                ? 'text-white bg-white border-transparent'
+                : 'text-gray-500 bg-transparent border-transparent hover:text-gray-800 hover:border-orange-500'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
-        <h1 className="text-3xl font-bold text-center mb-8 mt-10  text-orange-600 dark:text-white">
+        <h1 className="text-3xl font-bold text-center mb-8 mt-10" style={{ fontFamily: 'sans-serif', color: "#ee8812" }}>
           {tab === 0
             ? 'Pending Leads'
             : tab === 1
@@ -52,10 +59,11 @@ const LeadsList = ({
         </h1>
 
         {tableData.length === 0 && (
-          <p className="text-gray-500">`Loading...`</p>
+          <p className="text-gray-500">`No Leads available...`</p>
         )}
 
         {tableData.length !== 0 && (
+          <div className="bg-white dark:bg-gray-800 dark:text-white">
           <DataTable
             columns={columns}
             data={tableData}
@@ -67,7 +75,7 @@ const LeadsList = ({
             paginationRowsPerPageOptions={[5, 10, 20]}
             onChangeRowsPerPage={handleRowsPerPageChange}
             responsive
-            highlightOnHover
+            // highlightOnHover
             conditionalRowStyles={[
               {
                 when: (row) => row.time_passed < 7,
@@ -90,11 +98,12 @@ const LeadsList = ({
               table: {
                 style: {
                   tableLayout: 'fixed',
+                  border: "1px solid black",
                 },
               },
               pagination: {
                 style: {
-                  backgroundColor: 'rgb(214 211 209)', // Tailwind bg-gray-200 equivalent
+                  // backgroundColor: 'rgb(214 211 209)', // Tailwind bg-gray-200 equivalent
                   color: 'rgb(31 41 55)', // Tailwind text-gray-700 equivalent
                   fontSize: '14px',
                   fontWeight: '500',
@@ -105,7 +114,7 @@ const LeadsList = ({
               },
               headCells: {
                 style: {
-                  backgroundColor: 'rgb(214 211 209)', // Tailwind bg-gray-200 equivalent
+                  // backgroundColor: 'rgb(214 211 209)', // Tailwind bg-gray-200 equivalent
                   fontFamily: 'sans-serif',
                   fontSize: '1rem',
                   color: 'rgb(31 41 55)', // Tailwind text-gray-800 equivalent
@@ -115,16 +124,17 @@ const LeadsList = ({
               },
               cells: {
                 style: {
-                  backgroundColor: 'rgb(229 231 235)', // Tailwind bg-gray-200 equivalent
+                  // backgroundColor: 'rgb(229 231 235)', // Tailwind bg-gray-200 equivalent
                   color: 'rgb(31 41 55)', // Tailwind text-gray-800 equivalent
                   fontFamily: 'sans-serif',
                   fontSize: '0.875rem',
                   textAlign: 'center',
-                  padding: '8px',
+                  padding: '16px',
                 },
               },
             }}
           />
+          </div>
         )}
       </div>
 
@@ -137,110 +147,159 @@ const LeadsList = ({
           />
 
           {/* Modal Container */}
-          <div
+          <div style={{ fontFamily: "sans-serif" }}
             className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 md:w-3/4 bg-white dark:bg-gray-700 rounded-lg shadow-lg z-50 p-6 flex gap-4`}
-          >
+            >
             {/* Left Section: Form and Details */}
-            <div className={`flex-1 overflow-y-auto max-h-[700px] `}>
+            <div className={`flex-1 overflow-y-auto max-h-[80vh] `}>
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-orange-600 dark:text-white border-b border-orange-500 pb-2 mb-4">
+                <h3 className="font-bold text-black dark:text-white border-b border-orange-500 pb-2 mb-4 mr-2" style={{ fontSize: "24px" }}>
                   Leads Details
                 </h3>
 
                 <div className="text-gray-700 dark:text-white text-sm mb-6">
-                  <p>
-                    <strong>Name:</strong>{' '}
-                    {selectedRow.type === 1
-                      ? selectedRow.datalake_cust_data?.cust_name
-                      : selectedRow.website_cust_data?.cust_name}
-                  </p>
+                  <div style={{ display: 'flex', width: '100%' }}>
+                    <div style={{ flex: '0 0 20%', fontSize: "16px", marginTop: "6px" }}>
+                      <strong>Name:</strong>
+                    </div>
+                    <div style={{ flex: '1', paddingLeft: '10px', marginRight: "10px" }}>
+                      <input
+                        type="text"
+                        className="bg-white dark:bg-white text-black dark:text-black"
+                        value={
+                          selectedRow.type === 1
+                            ? selectedRow.datalake_cust_data?.cust_name
+                            : selectedRow.website_cust_data?.cust_name
+                        }
+                        readOnly
+                        style={{
+                          width: '100%',
+                          border: '0.5px solid #ccc',
+                          padding: '5px',
+                          // backgroundColor: '#f9f9f9',
+                          borderRadius: '6px',
+                        }}
+                      />
+                    </div>
+                  </div>
                   {/* {aadhar} */}
                   {
                     <div className="my-3">
-                      <p>
-                        <strong>Aadhar:</strong>{' '}
-                        {selectedRow.type === 1
-                          ? selectedRow.datalake_cust_data?.aadhar
-                          : selectedRow.website_cust_data?.aadhar}
-                      </p>
-                      {!(
-                        selectedRow.status == 0 || selectedRow.status == 1
-                      ) && (
-                        <div>
-                          {/*  */}
-                          {(!selectedRow.aadhar_doc ||
-                            selectedRow.aadhar_doc.length == 0) && (
-                            <div>No Aadhar doc uploaded</div>
-                          )}
-                          {selectedRow.aadhar_doc && (
-                            <div className="my-4">
-                              <span className="mr-4">Uploaded Aadhar</span>
-                              <a
-                                href={`http://localhost:3000/docs/${selectedRow.aadhar_doc}`}
-                                download
-                                target="_blank" // Opens the link in a new tab
-                                rel="noopener noreferrer" // Adds security for external links
-                              >
-                                <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    className="w-6 h-6"
-                                  >
-                                    <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
-                                    <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                  </svg>
-                                </button>
-                              </a>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                    <div style={{ display: 'flex', width: '100%' }}>
+                      <div style={{ flex: '0 0 20%', fontSize: "16px", marginTop: "6px" }}>
+                        <strong>Aadhar No.:</strong>
+                      </div>
+                      <div style={{ flex: '1', paddingLeft: '10px', marginRight: "10px" }}>
+                        <input
+                          type="text"
+                          className="bg-white dark:bg-white text-black dark:text-black"
+                          value={selectedRow.type === 1
+                            ? selectedRow.datalake_cust_data?.aadhar
+                            : selectedRow.website_cust_data?.aadhar}
+                          readOnly
+                          style={{
+                            width: '100%',
+                            border: '0.5px solid #ccc',
+                            padding: '5px',
+                            // backgroundColor: '#f9f9f9',
+                            borderRadius: '6px',
+                          }}
+                        />
+                      </div>
                     </div>
+                    {!(
+                      selectedRow.status == 0 || selectedRow.status == 1
+                    ) && (
+                      <div>
+                        {/*  */}
+                        {!selectedRow.aadhar_doc && (
+                          <div>No Aadhar doc uploaded</div>
+                        )}
+                        {selectedRow.aadhar_doc && (
+                          <div className="my-4">
+                            <span  className="mr-4">Uploaded Aadhar</span> 
+                            <a
+                              href={`http://localhost:3000/docs/${selectedRow.aadhar_doc}`}
+                              download
+                              target="_blank" // Opens the link in a new tab
+                              rel="noopener noreferrer" // Adds security for external links
+                            >
+                              <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
+                                  <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
+                                </svg>
+                              </button>
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                   }
                   {/* PAN */}
                   {
-                    <div className="my-4">
-                      <p>
-                        <strong>PAN:</strong>{' '}
-                        {selectedRow.type === 1
-                          ? selectedRow.datalake_cust_data?.PAN
-                          : selectedRow.website_cust_data?.PAN}
-                      </p>
-                      {!(
-                        selectedRow.status == 0 || selectedRow.status == 1
-                      ) && (
-                        <div>
-                          {!selectedRow.pan_doc && (
-                            <div>No PAN doc uploaded</div>
-                          )}
-                          {selectedRow.pan_doc && (
-                            <div className="">
-                              <span className="mr-3">Uploaded PAN </span>
-                              <a
-                                href={`http://localhost:3000/docs/${selectedRow.pan_doc}`}
-                                download
-                                target="_blank" // Opens the link in a new tab
-                                rel="noopener noreferrer" // Adds security for external links
-                              >
-                                <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    className="w-6 h-6"
-                                  >
-                                    <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
-                                    <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                  </svg>
-                                </button>
-                              </a>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                    <div className='my-4'>
+                    <div style={{ display: 'flex', width: '100%' }}>
+                      <div style={{ flex: '0 0 20%', fontSize: "16px", marginTop: "6px" }}>
+                        <strong>PAN No.:</strong>
+                      </div>
+                      <div style={{ flex: '1', paddingLeft: '10px', marginRight: "10px" }}>
+                        <input
+                          type="text"
+                          className="bg-white dark:bg-white text-black dark:text-black"
+                          value={selectedRow.type === 1
+                            ? selectedRow.datalake_cust_data?.PAN
+                            : selectedRow.website_cust_data?.PAN}
+                          readOnly
+                          style={{
+                            width: '100%',
+                            border: '0.5px solid #ccc',
+                            padding: '5px',
+                            // backgroundColor: '#f9f9f9',
+                            borderRadius: '6px',
+                          }}
+                        />
+                      </div>
                     </div>
+                    {!(
+                      selectedRow.status == 0 || selectedRow.status == 1
+                    ) && (
+                      <div>
+                        {!selectedRow.pan_doc && (
+                          <div>No PAN doc uploaded</div>
+                        )}
+                        {selectedRow.pan_doc && (
+                          <div className="">
+                            <span className='mr-3'>Uploaded PAN </span>
+                            <a
+                              href={`http://localhost:3000/docs/${selectedRow.pan_doc}`}
+                              download
+                              target="_blank" // Opens the link in a new tab
+                              rel="noopener noreferrer" // Adds security for external links
+                            >
+                              <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
+                                  <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
+                                </svg>
+                              </button>
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                   }
 
                   {/* income proof */}
@@ -284,75 +343,113 @@ const LeadsList = ({
                   )}
                   {/* address */}
                   {
-                    <div className="my-3">
-                      <label className="mb-3 block text-black dark:text-white">
-                        Address
-                      </label>
+                    <div className='my-3'>
+                    <label className="mb-3 block text-black dark:text-white">
+                    < div style={{ fontSize: "16px", marginTop: "6px" }}>
+                        <strong>Address:</strong>
+                      </div>
+                    </label>
 
-                      <p>
-                        <strong>City:</strong>{' '}
-                        {selectedRow.type === 1
-                          ? selectedRow.datalake_cust_data?.city
-                          : selectedRow.website_cust_data?.city}
-                      </p>
-                      <p>
-                        <strong>State:</strong>{' '}
-                        {selectedRow.type === 1
-                          ? selectedRow.datalake_cust_data?.state
-                          : selectedRow.website_cust_data?.state}
-                      </p>
-
-                      {!(
-                        selectedRow.status == 0 || selectedRow.status == 1
-                      ) && (
-                        <div>
-                          {!selectedRow.address && (
-                            <div>Full address not available</div>
-                          )}
-                          {selectedRow.address && (
-                            <div className="">
-                              <span className="mr-2">Full Address</span>
-                              {selectedRow.address}
-                            </div>
-                          )}
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', width: '100%' }}>
+                      <div style={{ width: '40%' }}>
+                        <div style={{ display: 'flex', width: '100%' }}>
+                          <div style={{ flex: '0 0 10%', fontSize: "16px", marginTop: "6px" }}>
+                            <strong>City:</strong>
+                          </div>
+                          <div style={{ flex: '1', paddingLeft: '10px', marginRight: "10px" }}>
+                            <input
+                              type="text"
+                              className="bg-white dark:bg-white text-black dark:text-black"
+                              value={selectedRow.type === 1
+                                ? selectedRow.datalake_cust_data?.city
+                                : selectedRow.website_cust_data?.city}
+                              readOnly
+                              style={{
+                                width: '100%',
+                                border: '0.5px solid #ccc',
+                                padding: '5px',
+                                // backgroundColor: '#f9f9f9',
+                                borderRadius: '6px',
+                              }}
+                            />
+                          </div>
                         </div>
-                      )}
-
-                      {!(
-                        selectedRow.status == 0 || selectedRow.status == 1
-                      ) && (
-                        <div>
-                          {!selectedRow.address_proof_doc && (
-                            <div>No Address Proof uploaded</div>
-                          )}
-                          {selectedRow.address_proof_doc && (
-                            <div className="">
-                              <span className="mr-3">
-                                Uploaded Address Proof File
-                              </span>
-                              <a
-                                href={`http://localhost:3000/docs/${selectedRow.address_proof_doc}`}
-                                download
-                                target="_blank" // Opens the link in a new tab
-                                rel="noopener noreferrer" // Adds security for external links
-                              >
-                                <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    className="w-6 h-6"
-                                  >
-                                    <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
-                                    <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                  </svg>
-                                </button>
-                              </a>
-                            </div>
-                          )}
+                      </div>
+                      <div style={{ width: '40%' }}>
+                      <div style={{ display: 'flex', width: '100%' }}>
+                          <div style={{ flex: '0 0 10%', fontSize: "16px", marginTop: "6px" }}>
+                            <strong>State:</strong>
+                          </div>
+                          <div style={{ flex: '1', paddingLeft: '10px', marginRight: "10px" }}>
+                            <input
+                              type="text"
+                              className="bg-white dark:bg-white text-black dark:text-black"
+                              value={selectedRow.type === 1
+                                ? selectedRow.datalake_cust_data?.state
+                                : selectedRow.website_cust_data?.state}
+                              readOnly
+                              style={{
+                                width: '100%',
+                                border: '0.5px solid #ccc',
+                                padding: '5px',
+                                // backgroundColor: '#f9f9f9',
+                                borderRadius: '6px',
+                              }}
+                            />
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
+
+                    {!(
+                      selectedRow.status == 0 || selectedRow.status == 1
+                    ) && (
+                      <div>
+                        {!selectedRow.address && (
+                          <div>Full address not available</div>
+                        )}
+                        {selectedRow.address && (
+                          <div className="">
+                            <span className='mr-2'>Full Address</span>
+                            {selectedRow.address}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {!(
+                      selectedRow.status == 0 || selectedRow.status == 1
+                    ) && (
+                      <div>
+                        {!selectedRow.address_proof_doc && (
+                          <div>No Address Proof uploaded</div>
+                        )}
+                        {selectedRow.address_proof_doc && (
+                          <div className="">
+                            <span className='mr-3'>Uploaded Address Proof File</span>
+                            <a
+                              href={`http://localhost:3000/docs/${selectedRow.address_proof_doc}`}
+                              download
+                              target="_blank" // Opens the link in a new tab
+                              rel="noopener noreferrer" // Adds security for external links
+                            >
+                              <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
+                                  <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
+                                </svg>
+                              </button>
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                   }
 
                   {selectedRow.status === 2 && (
@@ -395,30 +492,34 @@ const LeadsList = ({
                   <form onSubmit={handleFormSubmit} className="space-y-4">
                     {/* {aadhar  */}
                     {
-                      <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                        <div>
-                          <label className="mb-3 block text-black dark:text-white">   
-                            Upload Aadhar
+                        <div style={{ marginRight: "10px" }}>
+                          <label className="mb-1 block text-black dark:text-white">
+                            <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                              <strong>Upload Aadhar:</strong>
+                            </div>
                           </label>
                           {selectedRow.aadhar_doc &&
                             selectedRow.aadhar_doc.length > 0 && (
-                              <p>Previous Uploaded Files : </p>
+                              <p className='mt-2 ml-4 text-black dark:text-white' style={{ fontSize: "14px" }} >Previous Uploaded Files : </p>
                             )}
                           {selectedRow.aadhar_doc &&
                             selectedRow.aadhar_doc.length > 0 &&
-                            selectedRow.aadhar_doc.map((file) => (
-                              <div className="flex">
-                                {' '}
+                            selectedRow.aadhar_doc.map((file, index) => (
+                              <div className="flex ml-4 mb-2">
+                               <span className="ml-2 mt-2 mr-2 text-gray-600 dark:text-white">{index + 1})</span>
                                 <a
                                   href={`http://localhost:3000/docs/${file.file_name}`}
                                   download
-                                  target="_blank" p
+                                  target="_blank"
                                   rel="noopener noreferrer" // Adds security for external links
-                                  className="flex my-3"
+                                  className="flex my-0"
                                 >
-                                  <p>{file.file_name} </p>
+                                  <FontAwesomeIcon
+                                    icon={faDownload}
+                                    className="w-6 h-6 mt-2.5 ml-2 text-black dark:text-white" // Tailwind classes for size and color
+                                  />
 
-                                  <svg
+                                  {/* <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     fill="currentColor"
@@ -426,7 +527,7 @@ const LeadsList = ({
                                   >
                                     <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
                                     <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                  </svg>
+                                  </svg> */}
                                 </a>
                                 <button
                                   type="button"
@@ -438,7 +539,7 @@ const LeadsList = ({
                                       selectedRow.id,
                                     );
                                   }}
-                                  className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                  className="p-2 rounded-md transition-all active:scale-95 active:shadow-inner mx-4"
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -473,16 +574,20 @@ const LeadsList = ({
                             ))}
                           {selectedRow.aadhar_doc_file && (
                             <p className="my-2">
-                              Selected Files :{' '}
+                              <span className='mt-2 ml-4 mr-2 text-black dark:text-white' style={{ fontSize: "14px" }}>Selected Files:</span>
                               {Array.from(selectedRow.aadhar_doc_file)
-                                .map((file) => file.name)
-                                .join(', ')}
+                                .map((file, index) => (
+                                  <span key={file.name} className="mt-2 ml-2 mr-0 text-gray-600 dark:text-white" style={{ fontSize: "14px" }}>
+                                    {index + 1}) {file.name}
+                                  </span>
+                                ))
+                                .reduce((prev, curr) => [prev, ', ', curr])}
                             </p>
                           )}
                           <input
                             type="file"
                             multiple
-                            className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                            className="w-full rounded-md border border-[#ccc] border-stroke p-1 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white cursor-pointer"
                             onChange={(e) => {
                               const { name, files: selectedFiles } = e.target;
                               setSelectedRow((prev) => ({
@@ -492,35 +597,38 @@ const LeadsList = ({
                             }}
                           />
                         </div>
-                      </div>
                     }
 
                     {/*  PAN */}
                     {
-                      <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                        <div>
-                          <label className="mb-3 block text-black dark:text-white px-2">
-                            Upload PAN
+                        <div style={{ marginRight: "10px" }}>
+                          <label className="mb-1 block text-black dark:text-white">
+                            <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                              <strong>Upload PAN:</strong>
+                            </div>
                           </label>
                           {selectedRow.pan_doc &&
                             selectedRow.pan_doc.length > 0 && (
-                              <p className="px-2">Previous Uploaded Files : </p>
+                              <p className='mt-2 ml-4 text-black dark:text-white' style={{ fontSize: "14px" }}>Previous Uploaded Files : </p>
                             )}
                           {selectedRow.pan_doc &&
                             selectedRow.pan_doc.length > 0 &&
-                            selectedRow.pan_doc.map((file) => (
-                              <div className="flex">
-                                {' '}
+                            selectedRow.pan_doc.map((file, index) => (
+                              <div className="flex ml-4 mb-2">
+                                <span className="ml-2 mt-2 mr-2  text-gray-600 dark:text-white">{index + 1})</span>
                                 <a
                                   href={`http://localhost:3000/docs/${file.file_name}`}
                                   download
                                   target="_blank" // Opens the link in a new tab
                                   rel="noopener noreferrer" // Adds security for external links
-                                  className="flex my-3"
+                                  className="flex my-0"
                                 >
-                                  <p className="px-2">{file.file_name} </p>
+                                  <FontAwesomeIcon
+                                    icon={faDownload}
+                                    className="w-6 h-6 mt-2.5 ml-2 text-black dark:text-white" // Tailwind classes for size and color
+                                  />
 
-                                  <svg
+                                  {/* <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     fill="currentColor"
@@ -528,7 +636,7 @@ const LeadsList = ({
                                   >
                                     <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
                                     <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                  </svg>
+                                  </svg> */}
                                   {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                    
                                   </button> */}
@@ -543,7 +651,7 @@ const LeadsList = ({
                                       selectedRow.id,
                                     );
                                   }}
-                                  className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                  className="p-2 rounded-md transition-all active:scale-95 active:shadow-inner mx-4"
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -579,16 +687,20 @@ const LeadsList = ({
 
                           {selectedRow.pan_doc_file && (
                             <p className="my-2">
-                              Selected Files :{' '}
+                              <span className='mt-2 ml-4 mr-2 text-black dark:text-white' style={{ fontSize: "14px" }}>Selected Files:</span>
                               {Array.from(selectedRow.pan_doc_file)
-                                .map((file) => file.name)
-                                .join(', ')}
+                                .map((file, index) => (
+                                  <span key={file.name} className="mt-2 ml-2 mr-0 text-gray-600 dark:text-white" style={{ fontSize: "14px" }}>
+                                    {index + 1}) {file.name}
+                                  </span>
+                                ))
+                                .reduce((prev, curr) => [prev, ', ', curr])}
                             </p>
                           )}
                           <input
                             type="file"
                             multiple
-                            className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                            className="w-full rounded-md border border-[#ccc] border-stroke p-1 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white cursor-pointer"
                             onChange={(e) => {
                               const { name, files: selectedFiles } = e.target;
                               setSelectedRow((prev) => ({
@@ -598,15 +710,15 @@ const LeadsList = ({
                             }}
                           />
                         </div>
-                      </div>
                     }
 
                     {/* annual income */}
                     {
-                      <div>
-                        <label className="mb-2.5 block text-black dark:text-white">
-                          {' '}
-                          Annual Income{' '}
+                      <div style={{ marginRight: "10px" }}>
+                        <label className="mb-1 block text-black dark:text-white">
+                          <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                            <strong>Annual Income:</strong>
+                          </div>
                         </label>
 
                         <div className="relative z-20 bg-transparent dark:bg-form-input">
@@ -617,15 +729,14 @@ const LeadsList = ({
 
                             // }}
                             value={selectedRow.annual_income}
+                            style={{ borderRadius: "6px" }}
                             onChange={(e) => {
                               setSelectedRow((prev) => ({
                                 ...prev,
                                 annual_income: e.target.value,
                               }));
                             }}
-                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary 
-                         
-                        }`}
+                            className="w-full px-2 py-2 border border-[#ccc] dark:bg-black rounded-md shadow-sm cursor-pointer"
                           >
                             <option
                               value=""
@@ -659,30 +770,34 @@ const LeadsList = ({
                     {/* income proof */}
                     {
                       <div className="mb-4.5">
-                        <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                          <div>
-                            <label className="mb-3 block text-black dark:text-white">
-                              Upload Income Proof
+                          <div style={{ marginRight: "10px" }}>
+                            <label className="mb-1 block text-black dark:text-white">
+                              <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                                <strong>Upload Income Proof:</strong>
+                              </div>
                             </label>
                             {selectedRow.income_proof_doc &&
                               selectedRow.income_proof_doc.length > 0 && (
-                                <p>Previous Uploaded Files : </p>
+                                <p className='mt-2 ml-4 text-black dark:text-white' style={{ fontSize: "14px" }}>Previous Uploaded Files : </p>
                               )}
                             {selectedRow.income_proof_doc &&
                               selectedRow.income_proof_doc.length > 0 &&
-                              selectedRow.income_proof_doc.map((file) => (
-                                <div className="flex">
-                                  {' '}
+                              selectedRow.income_proof_doc.map((file, index) => (
+                                <div className="flex ml-4 mb-2">
+                                  <span className="ml-2 mt-2 mr-2  text-gray-600 dark:text-white">{index + 1})</span>
                                   <a
                                     href={`http://localhost:3000/docs/${file.file_name}`}
                                     download
                                     target="_blank" // Opens the link in a new tab
                                     rel="noopener noreferrer" // Adds security for external links
-                                    className="flex my-3"
+                                    className="flex my-0"
                                   >
-                                    <p>{file.file_name} </p>
+                                    <FontAwesomeIcon
+                                      icon={faDownload}
+                                      className="w-6 h-6 mt-2.5 ml-2 text-black dark:text-white" // Tailwind classes for size and color
+                                    />
 
-                                    <svg
+                                    {/* <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
                                       fill="currentColor"
@@ -690,7 +805,7 @@ const LeadsList = ({
                                     >
                                       <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
                                       <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                    </svg>
+                                    </svg> */}
                                     {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                    
                                   </button> */}
@@ -705,8 +820,8 @@ const LeadsList = ({
                                         selectedRow.id,
                                       );
                                     }}
-                                    className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
-                                  >
+                                    className="p-2 rounded-md transition-all active:scale-95 active:shadow-inner mx-4"
+                                    >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="24"
@@ -741,16 +856,20 @@ const LeadsList = ({
 
                             {selectedRow.income_proof_doc_files && (
                               <p className="my-2">
-                                Selected Files :{' '}
+                                <span className='mt-2 ml-4 mr-2 text-black dark:text-white' style={{ fontSize: "14px" }}>Selected Files:</span>
                                 {Array.from(selectedRow.income_proof_doc_files)
-                                  .map((file) => file.name)
-                                  .join(', ')}
+                                  .map((file, index) => (
+                                    <span key={file.name} className="mt-2 ml-2 mr-0 text-gray-600 dark:text-white" style={{ fontSize: "14px" }}>
+                                      {index + 1}) {file.name}
+                                    </span>
+                                  ))
+                                  .reduce((prev, curr) => [prev, ', ', curr])}
                               </p>
                             )}
                             <input
                               type="file"
                               multiple
-                              className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                              className="w-full rounded-md border border-[#ccc] border-stroke p-1 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white cursor-pointer"
                               onChange={(e) => {
                                 const { name, files: selectedFiles } = e.target;
                                 setSelectedRow((prev) => ({
@@ -760,22 +879,23 @@ const LeadsList = ({
                               }}
                             />
                           </div>
-                        </div>
                       </div>
                     }
                     {/* address proof */}
                     {
                       <div>
                         {
-                          <div>
-                            <label className="mb-3 block text-black dark:text-white my-3">
-                              Enter Full address
+                          <div style={{ marginRight: "10px" }}>
+                            <label className="mb-1 block text-black dark:text-white my-3">
+                              <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                                <strong>Enter Full Address:</strong>
+                              </div>
                             </label>
                             <textarea
-                              rows={6}
-                              placeholder="Active textarea"
+                              rows={4}
+                              placeholder="Enter your Full Address"
                               value={selectedRow.address}
-                              className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
+                              className="w-full rounded-lg border-[1.5px] border-[#ccc] bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-[#ccc] disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
                               onChange={(e) => {
                                 setSelectedRow((prev) => ({
                                   ...prev,
@@ -786,31 +906,35 @@ const LeadsList = ({
                           </div>
                         }
 
-                        <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                          <div>
-                            <label className="mb-3 block text-black dark:text-white">
-                              Upload Address Proof
+                          <div style={{ marginRight: "10px" }}>
+                            <label className="mb-1 block text-black dark:text-white">
+                              <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                                <strong>Upload Address Proof:</strong>
+                              </div>
                             </label>
 
                             {selectedRow.address_proof_doc &&
                               selectedRow.address_proof_doc.length > 0 && (
-                                <p>Previous Uploaded Files : </p>
+                                <p className='mt-2 ml-4 text-black dark:text-white' style={{ fontSize: "14px" }}>Previous Uploaded Files : </p>
                               )}
                             {selectedRow.address_proof_doc &&
                               selectedRow.address_proof_doc.length > 0 &&
-                              selectedRow.address_proof_doc.map((file) => (
-                                <div className="flex">
-                                  {' '}
+                              selectedRow.address_proof_doc.map((file, index) => (
+                                <div className="flex ml-4 mb-2">
+                                  <span className="ml-2 mt-2 mr-2  text-gray-600 dark:text-white">{index + 1})</span>
                                   <a
                                     href={`http://localhost:3000/docs/${file.file_name}`}
                                     download
                                     target="_blank" // Opens the link in a new tab
                                     rel="noopener noreferrer" // Adds security for external links
-                                    className="flex my-3"
+                                    className="flex my-0"
                                   >
-                                    <p>{file.file_name} </p>
+                                    <FontAwesomeIcon
+                                      icon={faDownload}
+                                      className="w-6 h-6 mt-2.5 ml-2 text-black dark:text-white" // Tailwind classes for size and color
+                                    />
 
-                                    <svg
+                                    {/* <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
                                       fill="currentColor"
@@ -818,7 +942,7 @@ const LeadsList = ({
                                     >
                                       <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
                                       <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                    </svg>
+                                    </svg> */}
                                     {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                    
                                   </button> */}
@@ -833,7 +957,7 @@ const LeadsList = ({
                                         selectedRow.id,
                                       );
                                     }}
-                                    className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                    className="p-2 rounded-md transition-all active:scale-95 active:shadow-inner mx-4"
                                   >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -870,17 +994,21 @@ const LeadsList = ({
                             
                             {selectedRow.address_proof_doc_files && (
                             <p className="my-2">
-                              Selected Files :{' '}
-                              {Array.from(selectedRow.address_proof_doc_files)
-                                .map((file) => file.name)
-                                .join(', ')}
+                              <span className='mt-2 ml-4 mr-2 text-black dark:text-white' style={{ fontSize: "14px" }}>Selected Files:</span>
+                                {Array.from(selectedRow.address_proof_doc_files)
+                                  .map((file, index) => (
+                                    <span key={file.name} className="mt-2 ml-2 mr-0 text-gray-600 dark:text-white" style={{ fontSize: "14px" }}>
+                                      {index + 1}) {file.name}
+                                    </span>
+                                  ))
+                                  .reduce((prev, curr) => [prev, ', ', curr])}
                             </p>
                           )}
                             
                             <input
                             type="file"
                             multiple
-                            className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                            className="w-full rounded-md border border-[#ccc] border-stroke p-1 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white cursor-pointer"
                             onChange={(e) => {
                               const { name, files: selectedFiles } = e.target;
                               setSelectedRow((prev) => ({
@@ -890,37 +1018,40 @@ const LeadsList = ({
                             }}
                           />
                           </div>
-                        </div>
                       </div>
                     }
 
                     {/* property docs */}
                     {
-                      <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                        <div>
-                          <label className="mb-3 block text-black dark:text-white">
-                            Upload Property Documents
-                          </label>
+                        <div style={{ marginRight: "10px" }}>
+                          <label className="mb-1 block text-black dark:text-white">
+                              <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                                <strong>Upload Property Documents:</strong>
+                              </div>
+                            </label>
 
                           {selectedRow.property_doc &&
                             selectedRow.property_doc.length > 0 && (
-                              <p>Previous Uploaded Files : </p>
+                              <p className='mt-2 ml-4 text-black dark:text-white' style={{ fontSize: "14px" }}>Previous Uploaded Files : </p>
                             )}
                           {selectedRow.property_doc &&
                             selectedRow.property_doc.length > 0 &&
-                            selectedRow.property_doc.map((file) => (
-                              <div className="flex">
-                                {' '}
+                            selectedRow.property_doc.map((file, index) => (
+                              <div className="flex ml-4 mb-2">
+                                <span className="ml-2 mt-2 mr-2 text-gray-600 dark:text-white">{index + 1})</span>
                                 <a
                                   href={`http://localhost:3000/docs/${file.file_name}`}
                                   download
                                   target="_blank" // Opens the link in a new tab
                                   rel="noopener noreferrer" // Adds security for external links
-                                  className="flex my-3"
+                                  className="flex my-0"
                                 >
-                                  <p>{file.file_name} </p>
+                                  <FontAwesomeIcon
+                                    icon={faDownload}
+                                    className="w-6 h-6 mt-2.5 ml-2 text-black dark:text-white" // Tailwind classes for size and color
+                                  />
 
-                                  <svg
+                                  {/* <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     fill="currentColor"
@@ -928,7 +1059,7 @@ const LeadsList = ({
                                   >
                                     <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
                                     <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                  </svg>
+                                  </svg> */}
                                   {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                
                               </button> */}
@@ -943,8 +1074,8 @@ const LeadsList = ({
                                       selectedRow.id,
                                     );
                                   }}
-                                  className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
-                                >
+                                  className="p-2 rounded-md transition-all active:scale-95 active:shadow-inner mx-4"
+                                  >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="24"
@@ -980,10 +1111,14 @@ const LeadsList = ({
                           
                           {selectedRow.property_doc_files && (
                             <p className="my-2">
-                              Selected Files :{' '}
-                              {Array.from(selectedRow.property_doc_files)
-                                .map((file) => file.name)
-                                .join(', ')}
+                              <span className='mt-2 ml-4 mr-2 text-black dark:text-white' style={{ fontSize: "14px" }}>Selected Files:</span>
+                                {Array.from(selectedRow.property_doc_files)
+                                  .map((file, index) => (
+                                    <span key={file.name} className="mt-2 ml-2 mr-0 text-gray-600 dark:text-white" style={{ fontSize: "14px" }}>
+                                      {index + 1}) {file.name}
+                                    </span>
+                                  ))
+                                  .reduce((prev, curr) => [prev, ', ', curr])}
                             </p>
                           )}
 
@@ -991,7 +1126,7 @@ const LeadsList = ({
                           <input
                             type="file"
                             multiple
-                            className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                            className="w-full rounded-md border border-[#ccc] border-stroke p-1 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white cursor-pointer"
                             onChange={(e) => {
                               const { name, files: selectedFiles } = e.target;
                               setSelectedRow((prev) => ({
@@ -1001,35 +1136,38 @@ const LeadsList = ({
                             }}
                           />
                         </div>
-                      </div>
                     }
                     {/* bank statement docs */}
                     {
-                      <div className="rounded-sm border my-2 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                        <div>
-                          <label className="mb-3 block text-black dark:text-white px-2">
-                            Bank Statement
-                          </label>
+                        <div style={{ marginRight: "10px" }}>
+                          <label className="mb-1 block text-black dark:text-white">
+                              <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                                <strong>Upload Address Proof:</strong>
+                              </div>
+                            </label>
 
                           {selectedRow.bank_statement_doc &&
                             selectedRow.bank_statement_doc.length > 0 && (
-                              <p className="px-2">Previous Uploaded Files : </p>
+                              <p className='mt-2 ml-4 text-black dark:text-white' style={{ fontSize: "14px" }}>Previous Uploaded Files : </p>
                             )}
                           {selectedRow.bank_statement_doc &&
                             selectedRow.bank_statement_doc.length > 0 &&
-                            selectedRow.bank_statement_doc.map((file) => (
-                              <div className="flex">
-                                {' '}
+                            selectedRow.bank_statement_doc.map((file, index) => (
+                              <div className="flex ml-4 mb-2">
+                                <span className="ml-2 mt-2 mr-2 text-gray-600 dark:text-white">{index + 1})</span>
                                 <a
                                   href={`http://localhost:3000/docs/${file.file_name}`}
                                   download
                                   target="_blank" // Opens the link in a new tab
                                   rel="noopener noreferrer" // Adds security for external links
-                                  className="flex my-3"
+                                  className="flex my-0"
                                 >
-                                  <p className="px-2">{file.file_name} </p>
+                                  <FontAwesomeIcon
+                                    icon={faDownload}
+                                    className="w-6 h-6 mt-2.5 ml-2 text-black dark:text-white" // Tailwind classes for size and color
+                                  />
 
-                                  <svg
+                                  {/* <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     fill="currentColor"
@@ -1037,7 +1175,7 @@ const LeadsList = ({
                                   >
                                     <path d="M12 3a1 1 0 00-1 1v10.585l-3.293-3.292a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L13 14.585V4a1 1 0 00-1-1z" />
                                     <path d="M4 18a1 1 0 011 1v2h14v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z" />
-                                  </svg>
+                                  </svg> */}
                                   {/* <button className="px-4 py-2 disabled:true bg-orange-500 text-white rounded-md hover:bg-orange-600">
                                
                               </button> */}
@@ -1052,7 +1190,7 @@ const LeadsList = ({
                                       selectedRow.id,
                                     );
                                   }}
-                                  className="p-2 rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-all active:scale-95 active:shadow-inner mx-4"
+                                  className="p-2 rounded-md transition-all active:scale-95 active:shadow-inner mx-4"
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -1089,17 +1227,21 @@ const LeadsList = ({
                           
                           {selectedRow.bank_statement_doc_files && (
                             <p className="my-2">
-                              Selected Files :{' '}
-                              {Array.from(selectedRow.bank_statement_doc_files)
-                                .map((file) => file.name)
-                                .join(', ')}
+                              <span className='mt-2 ml-4 mr-2 text-black dark:text-white' style={{ fontSize: "14px" }}>Selected Files:</span>
+                                {Array.from(selectedRow.bank_statement_doc_files)
+                                  .map((file, index) => (
+                                    <span key={file.name} className="mt-2 ml-2 mr-0 text-gray-600 dark:text-white" style={{ fontSize: "14px" }}>
+                                      {index + 1}) {file.name}
+                                    </span>
+                                  ))
+                                  .reduce((prev, curr) => [prev, ', ', curr])}
                             </p>
                           )}
                           
                           <input
                             type="file"
                             multiple
-                            className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                            className="w-full rounded-md border border-[#ccc] border-stroke p-1 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white cursor-pointer"
                             onChange={(e) => {
                               const { name, files: selectedFiles } = e.target;
                               setSelectedRow((prev) => ({
@@ -1109,12 +1251,13 @@ const LeadsList = ({
                             }}
                           />
                         </div>
-                      </div>
                     }
 
-                    <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Contact Made On:
+                    <div style={{ marginRight: "10px" }}>
+                      <label className="mb-1 block text-black dark:text-white">
+                        <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                          <strong>Contact made on:</strong>
+                        </div>
                       </label>
                       <input
                         type="date"
@@ -1127,13 +1270,15 @@ const LeadsList = ({
                             contactedOnDisplay: e.target.value,
                           }));
                         }}
-                        className="w-full px-3 py-2 border rounded-md  dark:bg-black shadow-sm focus:ring focus:ring-orange-300"
+                        className="w-full px-2 py-1.5 border border-[#ccc] rounded-md  dark:bg-black shadow-sm cursor-pointer"
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Response:
+                    <div style={{ marginRight: "10px" }}>
+                      <label className="mb-1 block text-black dark:text-white">
+                        <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                          <strong>Response:</strong>
+                        </div>
                       </label>
                       <select
                         value={selectedRow.response || ''}
@@ -1143,7 +1288,7 @@ const LeadsList = ({
                             response: e.target.value,
                           }))
                         }
-                        className="w-full px-3 py-2 border dark:bg-black rounded-md shadow-sm focus:ring focus:ring-orange-300"
+                        className="w-full px-2 py-2 border border-[#ccc] dark:bg-black rounded-md shadow-sm cursor-pointer"
                       >
                         <option value="">Select Response</option>
                         <option value="Interested">Interested</option>
@@ -1154,9 +1299,11 @@ const LeadsList = ({
 
                     {(selectedRow.response === 'CallBack' ||
                       selectedRow.response === 'NotInterested') && (
-                      <div>
-                        <label className="block text-sm font-medium mb-2">
-                          Remarks:
+                      <div style={{ marginRight: "10px" }}>
+                        <label className="mb-1 block text-black dark:text-white">
+                          <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                            <strong>Remarks:</strong>
+                          </div>
                         </label>
                         <input
                           type="text"
@@ -1167,15 +1314,17 @@ const LeadsList = ({
                               remarks: e.target.value,
                             }))
                           }
-                          className="w-full px-3 py-2 dark:bg-black border rounded-md shadow-sm focus:ring focus:ring-orange-300"
+                          className="w-full px-2 py-2 dark:bg-black border border-[#ccc] rounded-md shadow-sm"
                         />
                       </div>
                     )}
 
                     {selectedRow.response === 'CallBack' && (
-                      <div>
-                        <label className="block text-sm font-medium mb-2">
-                          Next Contact On:
+                      <div style={{ marginRight: "10px" }}>
+                        <label className="mb-1 block text-black dark:text-white">
+                          <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                            <strong>Next Contact On::</strong>
+                          </div>
                         </label>
                         <input
                           type="date"
@@ -1188,16 +1337,18 @@ const LeadsList = ({
                               nextContactOnDisplay: e.target.value,
                             }));
                           }}
-                          className="w-full px-3 py-2 border rounded-md  dark:bg-black shadow-sm focus:ring focus:ring-orange-300"
+                          className="w-full px-2 py-2 border border-[#ccc] rounded-md  dark:bg-black shadow-sm"
                         />
                       </div>
                     )}
 
                     {selectedRow.response === 'Interested' && (
-                      <div>
-                        <label className="block text-sm font-medium mb-2">
-                          Loan Amount:
-                        </label>{' '}
+                      <div style={{ marginRight: "10px" }}>
+                        <label className="mb-1 block text-black dark:text-white">
+                          <div style={{ fontSize: "16px", marginTop: "6px" }}>
+                            <strong>Loan Amount:</strong>
+                          </div>
+                        </label>
                         <input
                           type="number"
                           value={selectedRow?.amount_interested || ''}
@@ -1207,21 +1358,21 @@ const LeadsList = ({
                               amount_interested: e.target.value,
                             }))
                           }
-                          className="w-full px-3 py-2 border  dark:bg-black rounded-md shadow-sm focus:ring focus:ring-orange-300"
+                          className="w-full px-3 py-1.5 border border-[#ccc] dark:bg-black rounded-md shadow-sm"
                         />{' '}
                       </div>
                     )}
-                    <div className="mt-6 flex justify-end gap-4">
+                    <div className="mt-6 flex justify-center gap-4">
                       <button
                         type="button"
                         onClick={handleCloseModal}
-                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-sm hover:bg-gray-400 transition"
+                        className="px-4 py-1 bg-gray-300 text-gray-700 rounded-lg shadow-sm hover:bg-gray-400 transition"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
-                        className="px-4 py-2 bg-orange-500 text-white rounded-lg shadow-sm hover:bg-orange-600 transition"
+                        className="px-4 py-1 bg-orange-500 text-white rounded-lg shadow-sm hover:bg-orange-600 transition"
                       >
                         Save
                       </button>
@@ -1232,33 +1383,39 @@ const LeadsList = ({
             </div>
             {/* Right Section: conversation */}
             {selectedRow.status !== 0 && (
-              <div className="flex-1 bg-gray-100 rounded-lg dark:bg-black dark:text-white p-4 shadow-md overflow-y-auto max-h-[800px]">
-                <h4 className="mb-4 text-xl font-semibold">
-                  Old Conversations
-                </h4>
-                <ul className="p-0 m-0 list-none">
-                  {(selectedRow.conv || []).map((conversation, index) => (
-                    <li
-                      key={index}
-                      className="p-4 mb-4 border border-gray-300   dark:bg-black rounded-md bg-white"
-                    >
-                      <p>
-                        <strong>Date:</strong>{' '}
-                        {conversation.createdAt.toString().split('T')[0]}
-                      </p>
-                      <p>
-                        <strong>Response:</strong>{' '}
+              <div className="flex-1 bg-gray-100 rounded-lg dark:bg-black dark:text-white text-black p-4 shadow-md overflow-y-auto max-h-[800px]">
+              <h4 className="mb-4 text-xl font-semibold border-b-2 border-orange-500 pb-2 text-black">
+                Old Conversations
+              </h4>
+              <ul className="p-0 m-0 list-none">
+                {(selectedRow.conv || []).map((conversation, index) => (
+                  <li
+                    key={index}
+                    className="p-4 mb-4 border border-gray-300 dark:bg-gray-800 rounded-md bg-white shadow-sm hover:shadow-lg transition-shadow duration-300"
+                  >
+                    <p className="mb-2 text-gray-700 dark:text-gray-300">
+                      <strong className="text-black mr-2">Date:</strong>{' '}
+                      {conversation.createdAt.toString().split('T')[0]}
+                    </p>
+                    <p className="mb-2">
+                      <strong className="text-black mr-2">Response:</strong>{' '}
+                      <span
+                        className={`inline-block px-3 py-1 rounded-full text-sm font-semibold text-white ${
+                          conversation.response_type === 1 ? 'bg-green-500' : 'bg-red-500'
+                        }`}
+                      >
                         {conversation.response_type === 1
                           ? 'Call Back was requested'
                           : 'Not Interested'}
-                      </p>
-                      <p>
-                        <strong>Message:</strong> {conversation.remarks}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      </span>
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <strong className="text-black mr-2">Message:</strong> {conversation.remarks}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>            
             )}
           </div>
         </>

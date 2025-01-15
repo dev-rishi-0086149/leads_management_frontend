@@ -41,7 +41,7 @@ const Login: React.FC = () => {
         },
       );
 
-      toast.success('logged in successfull');
+      toast.success('Logged in successfully');
       console.log(response.data.token);
       setJwt(response.data.token);
       localStorage.setItem('ACCESS_TOKEN', response.data.token);
@@ -73,82 +73,74 @@ const Login: React.FC = () => {
   return (
     <>
       {/* <div className=''><DarkModeSwitcher /></div> */}
-      <div className="h-screen ">
-        <div className="bg-white dark:bg-gray-900  flex items-center justify-end px-6">
-          <DarkModeSwitcher />
-        </div>
-        <div className="flex flex-col bg-gray-50 dark:bg-gray-900 items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <div className="flex items-center space-x-4 py-4">
+      <div className="h-screen bg-gray-50 flex items-center justify-center" style={{ fontFamily: 'Roboto, sans-serif' }}>
+        <div className="flex flex-col items-center px-6 py-8 md:w-96 w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+          <div className="flex items-center space-x-4 mb-6 mt-2">
             <img
               src="https://trendlyne-media-mumbai-new.s3.amazonaws.com/profilepicture/155461_profilepicture.png"
               alt="Logo"
               className="w-14 h-10"
             />
-            <h2 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
               Leads Management
             </h2>
           </div>
-          <div className="w-full rounded-lg bg-gray-100 dark:bg-gray-800 shadow-xl md:mt-0 sm:max-w-md xl:p-0 dark:border-gray-700">
-            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Sign in to your account
-              </h1>
-              <form
-                className="space-y-4 md:space-y-6"
-                onSubmit={handleFormSubmit}
-              >
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Email / Emp. ID
-                  </label>
-                  <input
-                    type="text"
-                    name="empRef"
-                    id="empRef"
-                    className="bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:placeholder-gray-400"
-                    placeholder="xyz@spandanasphoorty.com / SFXXXXXXXXX"
-                    onChange={handleFormDataChange}
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="password"
-                    className="bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:placeholder-gray-400"
-                    onChange={handleFormDataChange}
-                    required
-                  />
-                </div>
-                <div className="flex justify-start">
-                  <button
-                    type="submit"
-                    className="items-center text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-800"
-                  >
-                    Sign in
-                  </button>
-                </div>
-                <div className="flex items-center justify-between">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-orange-400 hover:underline"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </form>
-            </div>
+          <div className="w-full">
+            {/* <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-200 text-center mb-4">
+              Sign in to your account
+            </h1> */}
+            <form className="space-y-6" onSubmit={handleFormSubmit}>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Email / Emp. ID
+                </label>
+                <input
+                  type="text"
+                  name="empRef"
+                  id="empRef"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-orange-500 focus:border-orange-500 text-sm"
+                  placeholder="Enter your Email ID or Employee ID"
+                  onChange={handleFormDataChange}
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-orange-500 focus:border-orange-500 text-sm"
+                  placeholder="Enter your Password"
+                  onChange={handleFormDataChange}
+                  required
+                />
+              </div>
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="w-full text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-800"
+                >
+                  Sign in
+                </button>
+              </div>
+              <div className="flex items-center justify-between mt-4 mb-2">
+                <a
+                  href="#"
+                  className="text-sm text-orange-500 hover:underline font-medium"
+                >
+                  Forgot password?
+                </a>
+              </div>
+            </form>
           </div>
         </div>
       </div>
